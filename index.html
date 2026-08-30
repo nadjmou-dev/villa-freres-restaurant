@@ -594,41 +594,93 @@ reservationForm.addEventListener('submit', async e => {
     /* ---------- (6) Gestion des réservations (dashboard) ---------- */
     function statusLabel(s){ return s==='confirmed' ? 'Confirmée' : s==='cancelled' ? 'Annulée' : 'En attente'; }
 
-    function renderDashboardReservations(){
-      const items = loadReservations();
-      const wrap = document.getElementById('dashResList');
-      if(!items.length){
-        wrap.innerHTML = '<div class="dash-empty">Aucune réservation enregistrée sur cet appareil pour le moment.</div>';
+async function renderDashboardReservations(){
+  const wrap = document.getElementById('dashResList');
+
+  wrap.innerHTML = '<div class="dash-empty">Chargement des réservations...</div>';
+
+  const { data: items, error } = await supabaseClient
+    .from('reservations')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('Supabase error:', error);
+    wrap.innerHTML = '<div class="dash-empty">Impossible de charger les réservations.</div>';
+    return;
+  }
+
+  if (!items || !items.length) {
+    wrap.innerHTML = '<div class="dash-empty">Aucune réservation enregistrée.</div>';
+    return;
+  }
+
+  wrap.innerHTML = items.map(r => `
+    <div class="dash-item">
+      <div>
+        <strong>${escapeHtml(r.name || '—')}</strong>
+        <span class="badge ${escapeHtml(r.status || 'pending')}">
+          ${statusLabel(r.status || 'pending')}
+        </span>
+
+        <div style="font-size:13px;color:var(--muted);margin-top:4px">
+          📅 ${escapeHtml(r.date || '—')}
+          · 🕐 ${escapeHtml(r.time || '—')}
+          · 👥 ${escapeHtml(String(r.people || '—'))}
+          ${r.phone ? ` · ☎ <a href="tel:${escapeHtml(r.phone)}" style="color:var(--text)">${escapeHtml(r.phone)}</a>` : ''}
+        </div>
+
+        ${r.message ? `
+          <div style="font-size:13px;color:var(--muted);margin-top:4px">
+            💬 ${escapeHtml(r.message)}
+          </div>
+        ` : ''}
+      </div>
+
+      <div class="dash-actions" style="flex-direction:column;gap:6px">
+        <button type="button" title="Confirmer" data-status="confirmed" data-id="${r.id}">✅</button>
+        <button type="button" title="Annuler" data-status="cancelled" data-id="${r.id}">🚫</button>
+        <button type="button" title="Supprimer" data-del-res="${r.id}">🗑️</button>
+      </div>
+    </div>
+  `).join('');
+
+  wrap.querySelectorAll('[data-status]').forEach(button => {
+    button.addEventListener('click', async () => {
+      const { error } = await supabaseClient
+        .from('reservations')
+        .update({ status: button.dataset.status })
+        .eq('id', button.dataset.id);
+
+      if (error) {
+        console.error('Supabase error:', error);
+        showToast('Erreur lors de la modification.');
         return;
       }
-      wrap.innerHTML = items.map(r => `
-        <div class="dash-item">
-          <div>
-            <strong>${escapeHtml(r.name||'—')}</strong><span class="badge ${escapeHtml(r.status)}">${statusLabel(r.status)}</span>
-            <div style="font-size:13px;color:var(--muted);margin-top:4px">
-              📅 ${escapeHtml(r.date||'—')} · 🕐 ${escapeHtml(r.time||'—')} · 👥 ${escapeHtml(String(r.people||'—'))}
-              ${r.phone ? ` · ☎ <a href="tel:${escapeHtml(r.phone)}" style="color:var(--text)">${escapeHtml(r.phone)}</a>` : ''}
-            </div>
-            ${r.message ? `<div style="font-size:13px;color:var(--muted);margin-top:4px">💬 ${escapeHtml(r.message)}</div>` : ''}
-          </div>
-          <div class="dash-actions" style="flex-direction:column;gap:6px">
-            <button type="button" title="Confirmer" data-status="confirmed" data-id="${r.id}">✅</button>
-            <button type="button" title="Annuler" data-status="cancelled" data-id="${r.id}">🚫</button>
-            <button type="button" title="Supprimer" data-del-res="${r.id}">🗑️</button>
-          </div>
-        </div>`).join('');
 
-      wrap.querySelectorAll('[data-status]').forEach(b=>b.addEventListener('click', ()=>{
-        const list = loadReservations().map(r => r.id===b.dataset.id ? {...r, status:b.dataset.status} : r);
-        saveReservations(list);
-        renderDashboardReservations();
-      }));
-      wrap.querySelectorAll('[data-del-res]').forEach(b=>b.addEventListener('click', ()=>{
-        if(!confirm('Supprimer cette réservation ?')) return;
-        saveReservations(loadReservations().filter(r=>r.id!==b.dataset.delRes));
-        renderDashboardReservations();
-      }));
-    }
+      renderDashboardReservations();
+    });
+  });
+
+  wrap.querySelectorAll('[data-del-res]').forEach(button => {
+    button.addEventListener('click', async () => {
+      if (!confirm('Supprimer cette réservation ?')) return;
+
+      const { error } = await supabaseClient
+        .from('reservations')
+        .delete()
+        .eq('id', button.dataset.delRes);
+
+      if (error) {
+        console.error('Supabase error:', error);
+        showToast('Erreur lors de la suppression.');
+        return;
+      }
+
+      renderDashboardReservations();
+    });
+  });
+}
 
     document.getElementById('addResManual').addEventListener('click', ()=>{
       const f = document.getElementById('manualResForm');
