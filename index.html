@@ -121,7 +121,25 @@
     .badge.cancelled{background:rgba(200,80,58,.16);color:#a33d29}
     .dash-close{border:none;background:transparent;font-size:24px;cursor:pointer;color:var(--muted);line-height:1;padding:4px 8px}
     .dash-close:hover{color:var(--text)}
-    .dash-empty{color:var(--muted);font-size:13px;padding:20px;text-align:center;border:1px dashed var(--line);border-radius:16px}
+    .dash-empty{color:var(--muted);font-size:13px;padding:20px;text-align:center;border:1px dashed var(--line);border-radius:16px} 
+    /* ====== Notifications Admin ====== */
+    .notif-wrap{position:relative}
+    .notif-btn{position:relative;border:1px solid var(--line);background:var(--surface);width:40px;height:40px;border-radius:12px;cursor:pointer;font-size:19px;display:grid;place-items:center}
+    .notif-btn:hover{border-color:rgba(255,207,92,.6);box-shadow:var(--glow-soft)}
+    .notif-count{position:absolute;top:-6px;right:-6px;min-width:19px;height:19px;padding:0 5px;border-radius:99px;background:var(--danger);color:#fff;font-size:10px;font-weight:900;display:none;place-items:center;border:2px solid var(--surface)}
+    .notif-count.show{display:grid}
+    .notif-menu{display:none;position:absolute;right:0;top:48px;width:min(360px,calc(100vw - 40px));background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:0 20px 50px rgba(21,72,120,.2);padding:12px;z-index:20}
+    .notif-menu.show{display:block}
+    .notif-title{font-weight:800;margin:2px 4px 9px}
+    .notif-list{display:grid;gap:7px;max-height:280px;overflow:auto}
+    .notif-item{padding:10px 11px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line);font-size:12px;cursor:pointer}
+    .notif-item:hover{border-color:rgba(255,207,92,.55)}
+    .notif-item strong{display:block;font-size:13px}
+    .notif-item span{display:block;color:var(--muted);margin-top:2px}
+    .notif-empty{color:var(--muted);font-size:12px;text-align:center;padding:14px}
+    @keyframes notifPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+    .notif-btn.has-new{animation:notifPulse .8s ease-in-out 2}
+
     .manual-form{display:none;margin-bottom:14px;padding:14px;border:1px solid var(--line);border-radius:16px;background:var(--surface-2)}
 
     .mobile-toggle{display:none}
@@ -288,7 +306,14 @@
       <div class="dash-head">
         <strong>🍽️ Tableau de bord — Villa Frères</strong>
         <div style="display:flex;gap:10px;align-items:center">
-          <button class="btn small-btn" id="logoutBtn" type="button">Déconnexion</button>
+          <div class="notif-wrap" id="notifWrap">
+              <button class="notif-btn" id="notifBtn" type="button" aria-label="Notifications" title="Nouvelles réservations">🔔<span class="notif-count" id="notifCount">0</span></button>
+              <div class="notif-menu" id="notifMenu">
+                <div class="notif-title">Notifications</div>
+                <div class="notif-list" id="notifList"></div>
+              </div>
+            </div>
+            <button class="btn small-btn" id="logoutBtn" type="button">Déconnexion</button>
           <button class="dash-close" id="closeDash2" aria-label="Fermer">×</button>
         </div>
       </div>
@@ -490,6 +515,8 @@ reservationForm.addEventListener('submit', async e => {
     function showPanel(){
       loginCard.style.display='none'; dashPanel.style.display='block';
       renderDashboardMenu(); renderDashboardReservations();
+      startAdminNotifications();
+      requestNotificationPermission();
     }
 
     document.getElementById('openDash').addEventListener('click', e=>{ e.preventDefault(); openDashboard(); });
@@ -618,6 +645,144 @@ document.getElementById('logoutBtn').addEventListener('click', async () => {
       showToast('Menu mis à jour.');
     });
     document.getElementById('menuCancelEdit').addEventListener('click', resetMenuForm);
+
+
+    /* ---------- Notifications Admin ---------- */
+    const NOTIF_SEEN_KEY = 'vf_admin_seen_reservations';
+    let notificationTimer = null;
+    let notificationFirstLoad = true;
+    let notificationKnownIds = new Set();
+
+    function getSeenReservationIds(){
+      try{
+        const raw = localStorage.getItem(NOTIF_SEEN_KEY);
+        return new Set(raw ? JSON.parse(raw) : []);
+      }catch(e){ return new Set(); }
+    }
+
+    function saveSeenReservationIds(ids){
+      try{ localStorage.setItem(NOTIF_SEEN_KEY, JSON.stringify([...ids].slice(-500))); }catch(e){}
+    }
+
+    function updateNotificationBadge(count){
+      const badge = document.getElementById('notifCount');
+      const btn = document.getElementById('notifBtn');
+      if(!badge || !btn) return;
+      badge.textContent = count > 99 ? '99+' : String(count);
+      badge.classList.toggle('show', count > 0);
+      btn.classList.toggle('has-new', count > 0);
+    }
+
+    function renderNotifications(items){
+      const list = document.getElementById('notifList');
+      if(!list) return;
+      if(!items.length){
+        list.innerHTML = '<div class="notif-empty">Aucune nouvelle réservation.</div>';
+        return;
+      }
+      list.innerHTML = items.slice(0,20).map(r => `
+        <div class="notif-item" data-notif-id="${escapeHtml(String(r.id))}">
+          <strong>🔔 Nouvelle réservation — ${escapeHtml(r.name || 'Client')}</strong>
+          <span>📅 ${escapeHtml(r.date || '—')} · 🕐 ${escapeHtml(r.time || '—')} · 👥 ${escapeHtml(String(r.people || '—'))}</span>
+        </div>
+      `).join('');
+
+      list.querySelectorAll('[data-notif-id]').forEach(item=>{
+        item.addEventListener('click', ()=>{
+          const seen = getSeenReservationIds();
+          seen.add(item.dataset.notifId);
+          saveSeenReservationIds(seen);
+          updateNotificationBadge(0);
+          document.getElementById('notifMenu').classList.remove('show');
+          document.querySelector('.dash-tab[data-tab="reservations"]')?.click();
+          renderDashboardReservations();
+        });
+      });
+    }
+
+    async function checkNewReservations(showBrowserNotification = true){
+      if(!isAuthed()) return;
+
+      const { data: items, error } = await supabaseClient
+        .from('reservations')
+        .select('id,name,people,date,time,created_at,status')
+        .order('created_at', { ascending:false })
+        .limit(50);
+
+      if(error){
+        console.error('Notification check error:', error);
+        return;
+      }
+
+      const seen = getSeenReservationIds();
+      const fresh = (items || []).filter(r => r.id != null && !seen.has(String(r.id)));
+
+      if(notificationFirstLoad){
+        (items || []).forEach(r=>notificationKnownIds.add(String(r.id)));
+        notificationFirstLoad = false;
+        updateNotificationBadge(fresh.length);
+        renderNotifications(fresh);
+        return;
+      }
+
+      const trulyNew = fresh.filter(r => !notificationKnownIds.has(String(r.id)));
+      (items || []).forEach(r=>notificationKnownIds.add(String(r.id)));
+
+      updateNotificationBadge(fresh.length);
+      renderNotifications(fresh);
+
+      if(trulyNew.length && showBrowserNotification && 'Notification' in window && Notification.permission === 'granted'){
+        trulyNew.slice(0,3).forEach(r=>{
+          new Notification('Villa Frères — Nouvelle réservation', {
+            body:`${r.name || 'Client'} · ${r.date || '—'} à ${r.time || '—'} · ${r.people || '—'} personne(s)`
+          });
+        });
+      }
+    }
+
+    function startAdminNotifications(){
+      if(notificationTimer) clearInterval(notificationTimer);
+      notificationFirstLoad = true;
+      notificationKnownIds = new Set();
+      checkNewReservations(false);
+      notificationTimer = setInterval(()=>checkNewReservations(true), 5000);
+    }
+
+    function stopAdminNotifications(){
+      if(notificationTimer){
+        clearInterval(notificationTimer);
+        notificationTimer = null;
+      }
+    }
+
+    document.getElementById('notifBtn').addEventListener('click', async ()=>{
+      const menu = document.getElementById('notifMenu');
+      menu.classList.toggle('show');
+      if(menu.classList.contains('show')){
+        const seen = getSeenReservationIds();
+        const { data: items } = await supabaseClient
+          .from('reservations')
+          .select('id,name,people,date,time,created_at,status')
+          .order('created_at', { ascending:false })
+          .limit(50);
+        const fresh = (items || []).filter(r=>r.id != null && !seen.has(String(r.id)));
+        renderNotifications(fresh);
+      }
+    });
+
+    document.addEventListener('click', e=>{
+      const wrap = document.getElementById('notifWrap');
+      if(wrap && !wrap.contains(e.target)){
+        document.getElementById('notifMenu').classList.remove('show');
+      }
+    });
+
+    async function requestNotificationPermission(){
+      if(!('Notification' in window)) return;
+      if(Notification.permission === 'default'){
+        try{ await Notification.requestPermission(); }catch(e){}
+      }
+    }
 
     /* ---------- (6) Gestion des réservations (dashboard) ---------- */
     function statusLabel(s){ return s==='confirmed' ? 'Confirmée' : s==='cancelled' ? 'Annulée' : 'En attente'; }
