@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#eaf4fc" />
+  <meta name="description" content="Villa Frères Restaurant — restaurant familial à Aïn Smara, Constantine. Découvrez le menu et les prix, réservez une table en ligne et contactez-nous." />
+  <title>Villa Frères Restaurant — Aïn Smara</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      /* ====== IDENTITÉ VISUELLE — bleu ciel clair + accents dorés "néon" doux ====== */
+      --bg:#eef6fd;
+      --surface:#ffffff;
+      --surface-2:#f2f8fd;
+      --text:#15304a;
+      --muted:#5c7b93;
+      --gold:#c9962c;
+      --gold-2:#a97b1e;
+      --gold-neon:#ffcf5c;
+      --glow:0 0 20px rgba(255,207,92,.5),0 0 48px rgba(255,207,92,.22);
+      --glow-soft:0 0 0 1px rgba(255,207,92,.35),0 6px 22px rgba(255,207,92,.16);
+      --line:rgba(21,48,74,.12);
+      --success:#1f9d6c;
+      --danger:#c8503a;
+      --shadow:0 22px 60px rgba(21,72,120,.12);
+      --radius:22px;
+      --max:1180px;
+      --font-display:'Fraunces',Georgia,serif;
+      --font-body:'Inter',ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;color:var(--text);font-family:var(--font-body);line-height:1.6;
+      background:
+        radial-gradient(circle at 12% -8%, rgba(255,207,92,.14), transparent 30%),
+        radial-gradient(circle at 100% 0%, #dcedfc 0%, transparent 42%),
+        linear-gradient(180deg,#f2f8fd 0%, #eaf4fc 38%, #f6fafd 100%);
+    }
+    a{color:inherit;text-decoration:none}
+    button,input,select,textarea{font:inherit}
+    h1,h2,.brand span,.dash-head strong{font-family:var(--font-display)}
+    .container{width:min(var(--max),92%);margin:auto}
+    a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--gold-neon);outline-offset:2px}
+
+    .topbar{position:sticky;top:0;z-index:30;background:rgba(238,246,253,.82);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+    .nav{height:76px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.2px}
+    .mark{width:43px;height:43px;border:1px solid rgba(255,207,92,.55);border-radius:14px;display:grid;place-items:center;color:var(--gold-neon);font-size:19px;font-family:var(--font-display);font-weight:700;background:linear-gradient(150deg,#123049,#1c435f);box-shadow:var(--glow-soft)}
+    .brand span{display:block;color:var(--text)}.brand small{display:block;color:var(--muted);font-weight:500;font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+    .links{display:flex;align-items:center;gap:26px;color:#3a5972;font-size:14px}
+    .links a:hover{color:var(--gold-2)}
+    .nav-actions{display:flex;gap:10px;align-items:center}
+    .btn{border:1px solid var(--line);border-radius:13px;padding:11px 16px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:.2s ease;background:#fff;color:var(--text)}
+    .btn:hover{transform:translateY(-1px);border-color:rgba(255,207,92,.55);box-shadow:0 0 0 1px rgba(255,207,92,.18)}
+    .btn.primary{background:linear-gradient(135deg,var(--gold-neon),var(--gold));color:#2a1c02;border-color:transparent;font-weight:800;box-shadow:var(--glow-soft)}
+    .btn.primary:hover{box-shadow:var(--glow)}
+    .btn.whatsapp{background:#e8f8ee;border-color:#bfe6cf;color:#146c47}
+    .btn.small-btn{padding:8px 12px;font-size:13px;border-radius:10px}
+    @keyframes softGlow{0%,100%{box-shadow:var(--glow-soft)}50%{box-shadow:var(--glow)}}
+    .pulse-gold{animation:softGlow 3.4s ease-in-out infinite}
+    @media (prefers-reduced-motion: reduce){ .pulse-gold{animation:none} html{scroll-behavior:auto} }
+
+    .hero{padding:88px 0 54px;position:relative;overflow:hidden}
+    .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:50px;align-items:center;position:relative}
+    .eyebrow{display:inline-flex;gap:8px;align-items:center;color:var(--gold-2);text-transform:uppercase;letter-spacing:.18em;font-size:12px;font-weight:800;margin-bottom:17px}
+    .dot{width:8px;height:8px;border-radius:50%;background:var(--success);box-shadow:0 0 16px rgba(31,157,108,.5)}
+    h1{font-size:clamp(44px,7vw,82px);line-height:.98;margin:0 0 22px;letter-spacing:-.03em;max-width:800px;font-weight:600}
+    .hero p{font-size:18px;color:#3f5c74;max-width:650px;margin:0 0 30px}
+    .hero-actions{display:flex;flex-wrap:wrap;gap:12px}
+    .hero-card{min-height:460px;border:1px solid rgba(255,207,92,.2);border-radius:30px;background:linear-gradient(150deg,#0f2d46,#153a58 55%,#0c2337);box-shadow:0 30px 80px rgba(10,40,65,.35),var(--glow-soft);padding:24px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;color:#eaf4fc}
+    .hero-card:before,.hero-card:after{content:"";position:absolute;border-radius:50%;filter:blur(2px)}
+    .hero-card:before{width:280px;height:280px;background:rgba(255,207,92,.16);right:-90px;top:-80px}.hero-card:after{width:240px;height:240px;background:rgba(255,207,92,.09);left:-100px;bottom:-90px}
+    .plate{position:relative;z-index:1;height:280px;display:grid;place-items:center}
+    .plate-ring{width:245px;height:245px;border-radius:50%;border:2px solid rgba(255,207,92,.4);box-shadow:0 0 0 18px rgba(255,207,92,.05),0 0 60px rgba(255,207,92,.22),0 30px 80px rgba(0,0,0,.35);display:grid;place-items:center;background:radial-gradient(circle,#1a4062 0 17%,#22557d 18% 23%,#0d2740 24% 100%)}
+    .food-icons{font-size:92px;filter:drop-shadow(0 20px 30px rgba(0,0,0,.4))}
+    .hero-note{position:relative;z-index:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,207,92,.18);border-radius:18px;padding:15px 16px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    .mini strong{display:block;font-size:18px}.mini span{font-size:11px;color:#a9c6dd}
+    section{padding:76px 0}
+    .section-head{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:28px}
+    .section-head h2{margin:0;font-size:clamp(28px,4vw,45px);letter-spacing:-.02em;font-weight:600}.section-head p{margin:0;max-width:600px;color:var(--muted)}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow)}
+    .icon{width:46px;height:46px;border-radius:14px;background:rgba(201,150,44,.1);box-shadow:0 0 0 1px rgba(255,207,92,.18) inset;display:grid;place-items:center;color:var(--gold);font-size:22px;margin-bottom:16px}
+    .card h3{margin:0 0 7px}.card p{margin:0;color:var(--muted);font-size:14px}
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:25px}.stat{padding:20px;background:var(--surface);border:1px solid var(--line);border-radius:18px}.stat strong{font-size:30px;display:block;color:var(--gold-2);text-shadow:0 0 18px rgba(255,207,92,.25)}.stat span{color:var(--muted);font-size:12px}
+    .menu-wrap{background:linear-gradient(180deg,rgba(255,207,92,.07),transparent);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}.filter{padding:9px 14px;border-radius:99px;border:1px solid var(--line);background:#fff;color:#3a5972;cursor:pointer}.filter.active,.filter:hover{border-color:rgba(255,207,92,.6);color:#8a6112;background:rgba(255,207,92,.16);box-shadow:var(--glow-soft)}
+    .menu-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}.dish{display:flex;justify-content:space-between;gap:20px;padding:20px;background:var(--surface);border:1px solid var(--line);border-radius:18px}.dish-info h3{margin:0 0 5px;font-size:17px}.dish-info p{margin:0;color:var(--muted);font-size:13px}.price{font-weight:800;color:var(--gold-2);white-space:nowrap}.note{color:var(--muted);font-size:12px;margin-top:18px}
+    .feature{display:grid;grid-template-columns:1fr 1fr;gap:18px}.feature .card{min-height:260px;display:flex;flex-direction:column;justify-content:space-between}
+    .reviews{display:grid;grid-template-columns:1fr 1fr;gap:18px}.review{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:22px}.stars{color:var(--gold);letter-spacing:2px}.review p{color:#345169;margin:13px 0;font-size:14px}.review .author{color:var(--muted);font-size:12px}
+    .rating{display:flex;align-items:center;gap:20px;padding:28px;border-radius:24px;background:linear-gradient(135deg,#eef6fd,#dceefc);border:1px solid var(--line);margin-bottom:18px}.score{font-size:60px;font-weight:900;line-height:1;color:var(--gold-2);text-shadow:0 0 18px rgba(255,207,92,.3)}
+    .contact-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:18px}.info-list{display:grid;gap:12px}.info-row{display:flex;gap:13px;padding:16px;border:1px solid var(--line);border-radius:17px;background:var(--surface)}.info-row .i{width:38px;height:38px;border-radius:12px;background:rgba(201,150,44,.1);display:grid;place-items:center;color:var(--gold)}.info-row strong{display:block}.info-row span{display:block;color:var(--muted);font-size:13px}
+    form{display:grid;gap:12px}label{font-size:12px;color:#3a5972;font-weight:600}input,select,textarea{width:100%;border:1px solid var(--line);background:#fbfdff;color:var(--text);border-radius:13px;padding:13px;outline:none}input:focus,select:focus,textarea:focus{border-color:rgba(255,207,92,.75);box-shadow:0 0 0 3px rgba(255,207,92,.15)}textarea{min-height:118px;resize:vertical}.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .map-card{overflow:hidden;border-radius:24px;border:1px solid var(--line);background:var(--surface)}.map-top{padding:20px}.map{height:300px;background:radial-gradient(circle at 55% 42%,rgba(255,207,92,.3),transparent 40%),linear-gradient(145deg,#e4f0fb,#f7fbff);display:grid;place-items:center;position:relative}.map:before{content:"";position:absolute;width:210px;height:210px;border:1px dashed rgba(201,150,44,.5);border-radius:50%}.pin{font-size:50px;z-index:1;filter:drop-shadow(0 10px 20px rgba(21,72,120,.25))}.map-label{position:absolute;bottom:18px;background:#fff;border:1px solid var(--line);padding:10px 14px;border-radius:12px;color:#3a5972;font-size:12px}
+    footer{border-top:1px solid var(--line);padding:35px 0;color:var(--muted);font-size:13px}.footer{display:flex;justify-content:space-between;gap:20px;align-items:center;flex-wrap:wrap}.footer strong{color:var(--text)}.owner-link{color:var(--muted);font-size:12px;opacity:.7;border-bottom:1px dashed transparent}.owner-link:hover{color:var(--gold-2);opacity:1}
+    .floating{position:fixed;right:18px;bottom:18px;z-index:40}.floating a{width:55px;height:55px;border-radius:50%;display:grid;place-items:center;background:#1b8b50;border:1px solid rgba(255,255,255,.25);font-size:24px;box-shadow:0 15px 35px rgba(21,72,120,.3)}
+    .mobile-toggle{display:none}.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#173049;border:1px solid rgba(255,207,92,.4);padding:13px 17px;border-radius:12px;color:#fff;transition:.25s;z-index:60;max-width:90%;text-align:center}.toast.show{opacity:1;transform:translate(-50%,0)}
+
+    /* ====== Espace propriétaire (tableau de bord) ====== */
+    .dash-overlay{position:fixed;inset:0;background:rgba(12,34,55,.55);backdrop-filter:blur(6px);z-index:100;display:none;align-items:center;justify-content:center;padding:20px}
+    .dash-overlay.show{display:flex}
+    .dash-card{background:var(--surface);border-radius:26px;box-shadow:var(--shadow);width:min(440px,100%);padding:28px;border:1px solid var(--line)}
+    .dash-panel{background:var(--surface);border-radius:26px;box-shadow:var(--shadow);width:min(920px,100%);max-height:88vh;overflow:auto;border:1px solid var(--line)}
+    .dash-head{display:flex;align-items:center;justify-content:space-between;padding:20px 26px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--surface);z-index:2;flex-wrap:wrap;gap:10px}
+    .dash-head strong{font-size:19px;font-weight:600}
+    .dash-tabs{display:flex;gap:8px;padding:16px 26px 0;flex-wrap:wrap}
+    .dash-tab{padding:9px 16px;border-radius:99px;border:1px solid var(--line);background:transparent;cursor:pointer;color:var(--muted);font-weight:700;font-size:13px}
+    .dash-tab.active{background:linear-gradient(135deg,var(--gold-neon),var(--gold));color:#2a1c02;border-color:transparent;box-shadow:var(--glow-soft)}
+    .dash-body{padding:22px 26px 30px}
+    .dash-item{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;padding:14px;border:1px solid var(--line);border-radius:16px;background:var(--surface-2);margin-bottom:10px}
+    .dash-actions{display:flex;gap:6px}
+    .dash-actions button{border:1px solid var(--line);background:var(--surface);width:34px;height:34px;border-radius:10px;cursor:pointer}
+    .dash-actions button:hover{border-color:rgba(255,207,92,.6)}
+    .badge{display:inline-flex;padding:4px 10px;border-radius:99px;font-size:11px;font-weight:800;letter-spacing:.02em;margin-inline-start:6px}
+    .badge.pending{background:rgba(201,150,44,.16);color:#8a6112}
+    .badge.confirmed{background:rgba(31,157,108,.16);color:#157a54}
+    .badge.cancelled{background:rgba(200,80,58,.16);color:#a33d29}
+    .dash-close{border:none;background:transparent;font-size:24px;cursor:pointer;color:var(--muted);line-height:1;padding:4px 8px}
+    .dash-close:hover{color:var(--text)}
+    .dash-empty{color:var(--muted);font-size:13px;padding:20px;text-align:center;border:1px dashed var(--line);border-radius:16px} 
+    /* ====== Notifications Admin ====== */
+    .notif-wrap{position:relative}
+    .notif-btn{position:relative;border:1px solid var(--line);background:var(--surface);width:40px;height:40px;border-radius:12px;cursor:pointer;font-size:19px;display:grid;place-items:center}
+    .notif-btn:hover{border-color:rgba(255,207,92,.6);box-shadow:var(--glow-soft)}
+    .notif-count{position:absolute;top:-6px;right:-6px;min-width:19px;height:19px;padding:0 5px;border-radius:99px;background:var(--danger);color:#fff;font-size:10px;font-weight:900;display:none;place-items:center;border:2px solid var(--surface)}
+    .notif-count.show{display:grid}
+    .notif-menu{display:none;position:absolute;right:0;top:48px;width:min(360px,calc(100vw - 40px));background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:0 20px 50px rgba(21,72,120,.2);padding:12px;z-index:20}
+    .notif-menu.show{display:block}
+    .notif-title{font-weight:800;margin:2px 4px 9px}
+    .notif-list{display:grid;gap:7px;max-height:280px;overflow:auto}
+    .notif-item{padding:10px 11px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line);font-size:12px;cursor:pointer}
+    .notif-item:hover{border-color:rgba(255,207,92,.55)}
+    .notif-item strong{display:block;font-size:13px}
+    .notif-item span{display:block;color:var(--muted);margin-top:2px}
+    .notif-empty{color:var(--muted);font-size:12px;text-align:center;padding:14px}
+    @keyframes notifPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+    .notif-btn.has-new{animation:notifPulse .8s ease-in-out 2}
+
+    .manual-form{display:none;margin-bottom:14px;padding:14px;border:1px solid var(--line);border-radius:16px;background:var(--surface-2)}
+
+    .mobile-toggle{display:none}
+    @media(max-width:900px){.links{display:none}.mobile-toggle{display:inline-flex}.hero-grid,.contact-grid,.feature{grid-template-columns:1fr}.hero-card{min-height:380px}.grid-3,.stats{grid-template-columns:1fr 1fr}.menu-grid,.reviews{grid-template-columns:1fr}}
+    @media(max-width:600px){.nav{height:67px}.brand small{font-size:9px}.nav-actions .btn.primary{display:none}.hero{padding-top:58px}.hero p{font-size:16px}.hero-card{min-height:340px}.plate{height:220px}.plate-ring{width:190px;height:190px}.food-icons{font-size:70px}.hero-note{grid-template-columns:1fr 1fr}.grid-3,.stats{grid-template-columns:1fr}.section-head{display:block}.section-head p{margin-top:8px}.two{grid-template-columns:1fr}.footer{display:block}.footer div+div{margin-top:9px}}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container nav">
+      <a class="brand" href="#accueil" aria-label="Villa Frères Restaurant">
+        <div class="mark">VF</div>
+        <div><span>Villa Frères</span><small>Restaurant · Aïn Smara</small></div>
+      </a>
+      <nav class="links">
+        <a href="#restaurant">Le restaurant</a>
+        <a href="#menu">Menu</a>
+        <a href="#avis">Avis</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <div class="nav-actions"><a class="btn primary" href="tel:+213781869896">☎ Appeler</a><a class="btn mobile-toggle" href="#contact">☰</a></div>
+    </div>
+  </header>
+
+  <main id="accueil">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow"><span class="dot"></span> Ouvert aujourd'hui · dès 11:00</div>
+          <h1>Une table familiale, des saveurs à partager.</h1>
+          <p>Bienvenue chez <strong>Villa Frères Restaurant</strong> à Aïn Smara, Constantine. Un restaurant familial avec repas sur place et vente à emporter.</p>
+          <div class="hero-actions">
+            <a class="btn primary pulse-gold" href="#menu">Découvrir le menu</a>
+            <a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=7G93%2B7Q7%2C%20A%C3%AFn%20Smara%2C%20Algeria">Voir l'itinéraire ↗</a>
+            <a class="btn whatsapp" target="_blank" rel="noopener" href="https://wa.me/213781869896?text=Bonjour%20Villa%20Fr%C3%A8res%2C%20je%20souhaite%20avoir%20des%20informations.">WhatsApp</a>
+          </div>
+          <div class="stats">
+            <div class="stat"><strong>3,7</strong><span>note Google / 5</span></div>
+            <div class="stat"><strong>192</strong><span>évaluations</span></div>
+            <div class="stat"><strong>1K–5K</strong><span>DA / personne</span></div>
+            <div class="stat"><strong>7j/7</strong><span>selon horaires publiés</span></div>
+          </div>
+        </div>
+        <div class="hero-card">
+          <div class="plate"><div class="plate-ring"><div class="food-icons">🍽️</div></div></div>
+          <div class="hero-note">
+            <div class="mini"><strong>Famille</strong><span>Ambiance conviviale</span></div>
+            <div class="mini"><strong>Sur place</strong><span>Repas en salle</span></div>
+            <div class="mini"><strong>À emporter</strong><span>Commande à récupérer</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="restaurant">
+      <div class="container">
+        <div class="section-head"><div><div class="eyebrow">L'expérience</div><h2>Un restaurant pensé pour partager.</h2></div><p>Les informations disponibles en ligne indiquent une adresse familiale à Aïn Smara, avec réservation, espace extérieur et plusieurs occasions de repas.</p></div>
+        <div class="grid-3">
+          <article class="card"><div class="icon">👨‍👩‍👧‍👦</div><h3>Restaurant familial</h3><p>Un cadre adapté aux repas en famille, déjeuners, dîners et moments à célébrer.</p></article>
+          <article class="card"><div class="icon">🌿</div><h3>Espace extérieur</h3><p>Des places en extérieur sont signalées parmi les équipements du restaurant.</p></article>
+          <article class="card"><div class="icon">🎉</div><h3>Occasions spéciales</h3><p>Le restaurant est signalé pour anniversaires, fêtes et réservations de groupes.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="menu" class="menu-wrap">
+      <div class="container">
+        <div class="section-head"><div><div class="eyebrow">À la carte</div><h2>Notre menu</h2></div><p>Le menu et les prix ci-dessous sont gérés directement par le restaurant depuis l'espace propriétaire.</p></div>
+        <div class="filters" id="filtersWrap"></div>
+        <div class="menu-grid" id="menuGrid"></div>
+        <div class="note">⚠️ Les prix affichés sont fixés par le restaurant et peuvent évoluer. Pour toute question, appelez le <a href="tel:+213781869896" style="color:var(--gold-2)">0781 86 98 96</a>.</div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-head"><div><div class="eyebrow">Services</div><h2>Tout pour un repas sans complication.</h2></div><p>Les fonctionnalités et services ci-dessous reprennent les informations publiques actuellement disponibles.</p></div>
+        <div class="feature">
+          <article class="card"><div><div class="icon">🕐</div><h3>Horaires</h3><p>Dimanche à jeudi : 11:00–00:00<br>Vendredi : 15:00–00:00<br>Samedi : 11:00–00:00</p></div><span style="color:var(--success);font-size:13px">● Horaires publiés en ligne</span></article>
+          <article class="card"><div><div class="icon">🛍️</div><h3>À emporter & commande</h3><p>Vente à emporter signalée. Des sources indiquent également réservation et livraison parmi les services associés.</p></div><a class="btn" href="tel:+213781869896">Appeler pour commander</a></article>
+          <article class="card"><div><div class="icon">🍽️</div><h3>Repas sur place</h3><p>Profitez du restaurant en salle et, selon les disponibilités, des espaces extérieurs.</p></div></article>
+          <article class="card"><div><div class="icon">🎂</div><h3>Anniversaires & groupes</h3><p>Les anniversaires et fêtes font partie des occasions mentionnées par les fiches publiques du restaurant.</p></div><a class="btn" href="#contact">Demander une réservation</a></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="avis" class="menu-wrap">
+      <div class="container">
+        <div class="section-head"><div><div class="eyebrow">Avis clients</div><h2>Ce que les visiteurs racontent.</h2></div><p>La note affichée sur Google est de 3,7/5 pour 192 évaluations. D'autres plateformes affichent des notes différentes.</p></div>
+        <div class="rating"><div class="score">3,7</div><div><div class="stars">★★★★☆</div><strong>Google · 192 évaluations</strong><div style="color:var(--muted);font-size:13px">Facebook : 4,4/5 · 6 avis, selon Restaurant Guru</div></div></div>
+        <div class="reviews">
+          <article class="review"><div class="stars">★★★★★</div><p>« Le service et l'ambiance ont été particulièrement appréciés, avec des serveurs accueillants et une atmosphère agréable. »</p><div class="author">Synthèse d'avis publics récents</div></article>
+          <article class="review"><div class="stars">★★★★☆</div><p>« La chakhchoukha est souvent citée positivement et les prix sont décrits comme raisonnables par certains visiteurs. »</p><div class="author">Synthèse d'avis publics récents</div></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <div class="section-head"><div><div class="eyebrow">Contact & réservation</div><h2>Réservez une table en ligne.</h2></div><p>Votre demande est enregistrée directement par le restaurant. Vous pouvez aussi la confirmer instantanément sur WhatsApp.</p></div>
+        <div class="contact-grid">
+          <div class="card">
+            <div class="info-list">
+              <div class="info-row"><div class="i">📍</div><div><strong>Adresse</strong><span>7G93+7Q7, Aïn Smara, Constantine, Algérie</span></div></div>
+              <div class="info-row"><div class="i">☎</div><div><strong>Téléphone</strong><span><a href="tel:+213781869896">0781 86 98 96</a></span></div></div>
+              <div class="info-row"><div class="i">🕐</div><div><strong>Horaires</strong><span>11:00–00:00 · vendredi 15:00–00:00</span></div></div>
+              <div class="info-row"><div class="i">💳</div><div><strong>Budget</strong><span>Environ 1 000–5 000 DA / personne</span></div></div>
+            </div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px"><a class="btn primary" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=7G93%2B7Q7%2C%20A%C3%AFn%20Smara%2C%20Algeria">📍 Itinéraire</a><a class="btn whatsapp" target="_blank" rel="noopener" href="https://wa.me/213781869896">💬 WhatsApp</a></div>
+          </div>
+          <div class="card">
+            <form id="reservationForm">
+              <div><label for="name">Nom</label><input id="name" name="name" placeholder="Votre nom" required></div>
+              <div class="two"><div><label for="phone">Téléphone</label><input id="phone" name="phone" type="tel" placeholder="0781 86 98 96" required></div><div><label for="people">Personnes</label><select id="people" name="people"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6+</option></select></div></div>
+              <div class="two"><div><label for="date">Date</label><input id="date" name="date" type="date" required></div><div><label for="time">Heure</label><input id="time" name="time" type="time" value="20:00" required></div></div>
+              <div><label for="message">Message</label><textarea id="message" name="message" placeholder="Ex. réservation pour anniversaire, demande sur un plat..."></textarea></div>
+              <button class="btn primary" type="submit">Envoyer la demande de réservation</button>
+              <div id="resSuccess" style="display:none">
+                <div class="dash-empty" style="border-color:rgba(31,157,108,.4);color:#157a54;background:rgba(31,157,108,.08)">✅ Votre demande a bien été enregistrée. Nous vous recontacterons pour confirmer.</div>
+                <a class="btn whatsapp" id="waConfirmBtn" target="_blank" rel="noopener" style="margin-top:10px;width:100%">💬 Confirmer aussi sur WhatsApp</a>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="map-card" style="margin-top:18px">
+          <div class="map-top"><strong>Localisation</strong><div style="color:var(--muted);font-size:13px">Aïn Smara · Constantine</div></div>
+          <div class="map"><div class="pin">📍</div><div class="map-label">7G93+7Q7 · Villa Frères Restaurant</div></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="container footer"><div>© <span id="year"></span> <strong>Villa Frères Restaurant</strong>. Site vitrine.</div><div>Aïn Smara, Constantine · <a href="tel:+213781869896">0781 86 98 96</a> · <a href="#" class="owner-link" id="openDash">⚙ Espace propriétaire</a></div></div></footer>
+  <div class="floating"><a href="https://wa.me/213781869896" target="_blank" rel="noopener" aria-label="WhatsApp">💬</a></div>
+  <div class="toast" id="toast"></div>
+
+  <!-- ====== Espace propriétaire : connexion + tableau de bord ====== -->
+  <div class="dash-overlay" id="dashOverlay" role="dialog" aria-modal="true" aria-label="Espace propriétaire">
+    <div class="dash-card" id="loginCard">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <strong style="font-size:19px">Espace propriétaire</strong>
+        <button class="dash-close" id="closeDash" aria-label="Fermer">×</button>
+      </div>
+      <p style="color:var(--muted);font-size:13px;margin-top:0">Accès réservé au gérant du restaurant.</p>
+<form id="loginForm">
+  <label for="adminEmail">Email</label>
+  <input type="email" id="adminEmail" required autocomplete="email">
+
+  <label for="adminPass">Mot de passe</label>
+  <input type="password" id="adminPass" required autocomplete="current-password">
+
+  <div id="loginError" style="display:none;color:var(--danger);font-size:12px">
+    Email ou mot de passe incorrect.
+  </div>
+
+  <button class="btn primary" type="submit" style="width:100%;margin-top:4px">
+    Se connecter
+  </button>
+</form>
+    </div>
+
+    <div class="dash-panel" id="dashPanel" style="display:none">
+      <div class="dash-head">
+        <strong>🍽️ Tableau de bord — Villa Frères</strong>
+        <div style="display:flex;gap:10px;align-items:center">
+          <div class="notif-wrap" id="notifWrap">
+              <button class="notif-btn" id="notifBtn" type="button" aria-label="Notifications" title="Nouvelles réservations">🔔<span class="notif-count" id="notifCount">0</span></button>
+              <div class="notif-menu" id="notifMenu">
+                <div class="notif-title">Notifications</div>
+                <div class="notif-list" id="notifList"></div>
+              </div>
+            </div>
+            <button class="btn small-btn" id="logoutBtn" type="button">Déconnexion</button>
+          <button class="dash-close" id="closeDash2" aria-label="Fermer">×</button>
+        </div>
+      </div>
+      <div class="dash-tabs">
+        <button class="dash-tab active" data-tab="menu" type="button">Menu</button>
+        <button class="dash-tab" data-tab="reservations" type="button">Réservations</button>
+        <button class="dash-tab" data-tab="settings" type="button">Paramètres</button>
+      </div>
+      <div class="dash-body">
+
+        <div class="dash-pane" data-pane="menu">
+          <div class="stats" style="grid-template-columns:repeat(3,1fr);margin-top:0;margin-bottom:18px">
+            <div class="stat"><strong id="statDishCount">0</strong><span>plats au menu</span></div>
+            <div class="stat"><strong id="statCatCount">0</strong><span>catégories utilisées</span></div>
+            <div class="stat"><strong id="statAvailCount">0</strong><span>disponibles</span></div>
+          </div>
+          <form id="menuForm">
+            <input type="hidden" id="menuItemId">
+            <div class="two"><div><label for="mName">Nom du plat</label><input id="mName" required></div><div><label for="mPrice">Prix (DA)</label><input id="mPrice" placeholder="ex. 1200" inputmode="numeric"></div></div>
+            <div class="two"><div><label for="mCat">Catégorie</label><select id="mCat"></select></div><div><label for="mAvail">Disponibilité</label><select id="mAvail"><option value="1">Disponible</option><option value="0">Indisponible</option></select></div></div>
+            <div><label for="mDesc">Description</label><textarea id="mDesc" placeholder="Courte description du plat"></textarea></div>
+            <div style="display:flex;gap:10px"><button class="btn primary" type="submit" id="menuSubmitBtn" style="flex:1">Ajouter au menu</button><button class="btn" type="button" id="menuCancelEdit" style="display:none">Annuler</button></div>
+          </form>
+          <div style="margin-top:20px" id="dashMenuList"></div>
+        </div>
+
+        <div class="dash-pane" data-pane="reservations" style="display:none">
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px">
+            <div style="color:var(--muted);font-size:13px">Réservations enregistrées sur cet appareil.</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn small-btn" type="button" id="addResManual">+ Ajouter manuellement</button><button class="btn small-btn" type="button" id="exportCsv">⬇ Export CSV</button></div>
+          </div>
+          <div class="manual-form" id="manualResForm">
+            <div class="two"><div><label for="mrName">Nom</label><input id="mrName"></div><div><label for="mrPhone">Téléphone</label><input id="mrPhone"></div></div>
+            <div class="two"><div><label for="mrDate">Date</label><input id="mrDate" type="date"></div><div><label for="mrTime">Heure</label><input id="mrTime" type="time"></div></div>
+            <div class="two"><div><label for="mrPeople">Personnes</label><input id="mrPeople" type="number" min="1" value="2"></div><div><label for="mrNote">Note</label><input id="mrNote" placeholder="Optionnel"></div></div>
+            <div style="display:flex;gap:8px;margin-top:4px"><button class="btn primary small-btn" type="button" id="mrSave">Enregistrer</button><button class="btn small-btn" type="button" id="mrCancel">Annuler</button></div>
+          </div>
+          <div id="dashResList"></div>
+        </div>
+
+        <div class="dash-pane" data-pane="settings" style="display:none">
+          <form id="passForm" style="max-width:380px">
+            <label for="newPass">Nouveau mot de passe</label>
+            <input id="newPass" type="password" minlength="4" required>
+            <button class="btn primary" type="submit" style="width:100%">Mettre à jour le mot de passe</button>
+            <div id="passSaved" style="display:none;color:var(--success);font-size:12px">✅ Mot de passe mis à jour.</div>
+          </form>
+          <hr style="border:none;border-top:1px solid var(--line);margin:22px 0">
+          <button class="btn" type="button" id="resetMenuBtn">↺ Réinitialiser le menu par défaut</button>
+          <p style="color:var(--muted);font-size:12px;margin-top:18px;line-height:1.7">⚠️ Ce site est autonome (sans serveur) : le menu, les réservations et le mot de passe sont stockés localement dans ce navigateur. Videz le cache ou changez d'appareil et ces données ne suivront pas — pensez à exporter les réservations en CSV régulièrement.</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    /* =========================================================================
+       VILLA FRÈRES — script du site
+       Sections : (1) Données & stockage local  (2) Rendu du menu public
+       (3) Formulaire de réservation  (4) Espace propriétaire (auth + onglets)
+       (5) Gestion du menu (CRUD)  (6) Gestion des réservations  (7) Init
+       Stockage : localStorage (données persistantes par navigateur/appareil),
+       sessionStorage (session de connexion à l'espace propriétaire).
+       ========================================================================= */
+
+    /* ---------- (1) Données par défaut & stockage ---------- */
+    const CATEGORIES = [
+      {value:'traditionnel', label:'Traditionnel'},
+      {value:'grillades',    label:'Viandes'},
+      {value:'sandwich',     label:'Sandwichs'},
+      {value:'poisson',      label:'Poissons'},
+      {value:'boisson',      label:'Boissons'},
+      {value:'dessert',      label:'Desserts'}
+    ];
+
+    const DEFAULT_MENU = [
+      {id:'d1', name:'Chakhchoukha', desc:"Plat traditionnel cité parmi les plats appréciés dans les avis.", price:'', cat:'traditionnel', available:true},
+      {id:'d2', name:'Filet / viande', desc:"Des plats à base de viande sont fréquemment mentionnés.", price:'', cat:'grillades', available:true},
+      {id:'d3', name:'BLT & sandwichs', desc:"La catégorie sandwichs apparaît dans les informations publiques.", price:'', cat:'sandwich', available:true},
+      {id:'d4', name:'Cordon bleu', desc:"Plat cité parmi les préparations proposées.", price:'', cat:'grillades', available:true},
+      {id:'d5', name:'Poissons', desc:"Poisson frit et plats de poisson figurent parmi les mets cités.", price:'', cat:'poisson', available:true},
+      {id:'d6', name:'Soupes & accompagnements', desc:"Soupes et légumes grillés sont également mentionnés.", price:'', cat:'traditionnel', available:true}
+    ];
+
+    const STORAGE = { MENU:'vf_menu_items', RES:'vf_reservations' };
+    const AUTH_KEY = 'vf_admin_auth';
+    const PASS_KEY = 'vf_admin_pass';
+    const DEFAULT_PASS = 'VillaFreres2026';
+
+    function loadMenu(){ try{ const raw = localStorage.getItem(STORAGE.MENU); return raw ? JSON.parse(raw) : DEFAULT_MENU; }catch(e){ return DEFAULT_MENU; } }
+    function saveMenu(items){ try{ localStorage.setItem(STORAGE.MENU, JSON.stringify(items)); }catch(e){} }
+    function loadReservations(){ try{ const raw = localStorage.getItem(STORAGE.RES); return raw ? JSON.parse(raw) : []; }catch(e){ return []; } }
+    function saveReservations(items){ try{ localStorage.setItem(STORAGE.RES, JSON.stringify(items)); }catch(e){} } 
+    const SUPABASE_URL = "https://snjpptllgchtvzxaqnix.supabase.co";
+const SUPABASE_KEY = "sb_publishable_AoTdNs0hJwTL5w-hmXPxTg_kfPWBtAy";
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+    function getAdminPass(){ return localStorage.getItem(PASS_KEY) || DEFAULT_PASS; }
+    function isAuthed(){ return sessionStorage.getItem(AUTH_KEY) === '1'; }
+    function setAuthed(v){ if(v) sessionStorage.setItem(AUTH_KEY,'1'); else sessionStorage.removeItem(AUTH_KEY); }
+
+    function escapeHtml(str){
+      return String(str==null?'':str).replace(/[&<>"']/g, s=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
+    }
+    function catLabel(val){ const c = CATEGORIES.find(c=>c.value===val); return c ? c.label : val; }
+
+    const toast = document.getElementById('toast');
+    let toastTimer = null;
+    function showToast(msg){
+      toast.textContent = msg;
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(()=>toast.classList.remove('show'), 3500);
+    }
+
+    /* ---------- (2) Rendu du menu public ---------- */
+    let currentFilter = 'all';
+
+    function renderFilters(){
+      const wrap = document.getElementById('filtersWrap');
+      wrap.innerHTML = '<button class="filter active" data-filter="all" type="button">Tout</button>' +
+        CATEGORIES.map(c=>`<button class="filter" data-filter="${c.value}" type="button">${escapeHtml(c.label)}</button>`).join('');
+      wrap.querySelectorAll('.filter').forEach(btn=>btn.addEventListener('click', ()=>{
+        wrap.querySelectorAll('.filter').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = btn.dataset.filter;
+        renderMenu();
+      }));
+    }
+
+    function renderMenu(){
+      const items = loadMenu().filter(it => it.available !== false && (currentFilter==='all' || it.cat===currentFilter));
+      const grid = document.getElementById('menuGrid');
+      if(!items.length){
+        grid.innerHTML = '<div class="dash-empty" style="grid-column:1/-1">Aucun plat dans cette catégorie pour le moment.</div>';
+        return;
+      }
+      grid.innerHTML = items.map(it => `
+        <article class="dish" data-cat="${escapeHtml(it.cat)}">
+          <div class="dish-info"><h3>${escapeHtml(it.name)}</h3><p>${escapeHtml(it.desc||'')}</p></div>
+          <div class="price">${it.price ? escapeHtml(it.price) + ' DA' : 'Sur demande'}</div>
+        </article>`).join('');
+    }
+
+    /* ---------- (3) Formulaire de réservation (client) ---------- */
+    const reservationForm = document.getElementById('reservationForm');
+    const resSuccess = document.getElementById('resSuccess');
+    const waConfirmBtn = document.getElementById('waConfirmBtn');
+reservationForm.addEventListener('submit', async e => {
+  e.preventDefault();
+
+  const name = document.getElementById('name').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const people = document.getElementById('people').value;
+  const date = document.getElementById('date').value;
+  const time = document.getElementById('time').value;
+  const message = document.getElementById('message').value.trim();
+
+  const { error } = await supabaseClient
+    .from('reservations')
+    .insert({
+      name: name,
+      phone: phone,
+      people: people,
+      date: date,
+      time: time,
+      message: message,
+      status: 'pending'
+    });
+
+  if (error) {
+    console.error('Supabase error:', error);
+    showToast('حدث خطأ أثناء تسجيل الحجز.');
+    return;
+  }
+
+  reservationForm.reset();
+  document.getElementById('time').value = '20:00';
+
+  resSuccess.style.display = 'block';
+  showToast('Réservation enregistrée avec succès.');
+});
+
+    /* ---------- (4) Espace propriétaire : ouverture, connexion, onglets ---------- */
+    const dashOverlay = document.getElementById('dashOverlay');
+    const loginCard = document.getElementById('loginCard');
+    const dashPanel = document.getElementById('dashPanel');
+
+    function openDashboard(){
+      dashOverlay.classList.add('show');
+      if(isAuthed()){ showPanel(); }
+      else { loginCard.style.display='block'; dashPanel.style.display='none'; document.getElementById('adminPass').focus(); }
+    }
+    function closeDashboard(){ dashOverlay.classList.remove('show'); }
+    function showPanel(){
+      loginCard.style.display='none'; dashPanel.style.display='block';
+      renderDashboardMenu(); renderDashboardReservations();
+      startAdminNotifications();
+      requestNotificationPermission();
+    }
+
+    document.getElementById('openDash').addEventListener('click', e=>{ e.preventDefault(); openDashboard(); });
+    document.getElementById('closeDash').addEventListener('click', closeDashboard);
+    document.getElementById('closeDash2').addEventListener('click', closeDashboard);
+    dashOverlay.addEventListener('click', e=>{ if(e.target===dashOverlay) closeDashboard(); });
+    document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeDashboard(); });
+
+ document.getElementById('loginForm').addEventListener('submit', async e => {
+  e.preventDefault();
+
+  const email = document.getElementById('adminEmail').value.trim();
+  const password = document.getElementById('adminPass').value;
+  const errBox = document.getElementById('loginError');
+
+  errBox.style.display = 'none';
+
+  const { error } = await supabaseClient.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if (error) {
+    console.error('Login error:', error);
+    errBox.textContent = 'Email ou mot de passe incorrect.';
+    errBox.style.display = 'block';
+    return;
+  }
+
+  document.getElementById('loginForm').reset();
+  setAuthed(true);
+  showPanel();
+});
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+  stopAdminNotifications();
+  setAuthed(false);
+  const { error } = await supabaseClient.auth.signOut();
+
+  if (error) {
+    console.error('Logout error:', error);
+    return;
+  }
+
+  closeDashboard();
+});  
+
+    document.querySelectorAll('.dash-tab').forEach(tab=>tab.addEventListener('click', ()=>{
+      document.querySelectorAll('.dash-tab').forEach(t=>t.classList.remove('active'));
+      tab.classList.add('active');
+      document.querySelectorAll('.dash-pane').forEach(p=> p.style.display = (p.dataset.pane===tab.dataset.tab) ? 'block' : 'none');
+    }));
+
+    /* ---------- (5) Gestion du menu (CRUD) ---------- */
+    function populateCategorySelect(select){
+      select.innerHTML = CATEGORIES.map(c=>`<option value="${c.value}">${escapeHtml(c.label)}</option>`).join('');
+    }
+
+    function renderDashboardMenu(){
+      const items = loadMenu();
+      const wrap = document.getElementById('dashMenuList');
+      if(!items.length){
+        wrap.innerHTML = '<div class="dash-empty">Aucun plat pour le moment. Ajoutez votre premier plat ci-dessus.</div>';
+      } else {
+        wrap.innerHTML = items.map(it => `
+          <div class="dash-item">
+            <div>
+              <strong>${escapeHtml(it.name)}</strong> — <span style="color:var(--gold-2);font-weight:700">${it.price ? escapeHtml(it.price)+' DA' : 'Prix non défini'}</span>
+              <div style="color:var(--muted);font-size:12px;margin-top:2px">${escapeHtml(catLabel(it.cat))}${it.available===false ? ' · Indisponible' : ''}</div>
+              ${it.desc ? `<div style="font-size:13px;color:var(--muted);margin-top:4px">${escapeHtml(it.desc)}</div>` : ''}
+            </div>
+            <div class="dash-actions">
+              <button type="button" title="Modifier" data-edit="${it.id}">✏️</button>
+              <button type="button" title="Supprimer" data-del="${it.id}">🗑️</button>
+            </div>
+          </div>`).join('');
+      }
+      document.getElementById('statDishCount').textContent = items.length;
+      document.getElementById('statCatCount').textContent = new Set(items.map(i=>i.cat)).size;
+      document.getElementById('statAvailCount').textContent = items.filter(i=>i.available!==false).length;
+
+      wrap.querySelectorAll('[data-edit]').forEach(b=>b.addEventListener('click', ()=>startEditDish(b.dataset.edit)));
+      wrap.querySelectorAll('[data-del]').forEach(b=>b.addEventListener('click', ()=>deleteDish(b.dataset.del)));
+    }
+
+    function resetMenuForm(){
+      document.getElementById('menuForm').reset();
+      document.getElementById('menuItemId').value = '';
+      document.getElementById('menuSubmitBtn').textContent = 'Ajouter au menu';
+      document.getElementById('menuCancelEdit').style.display = 'none';
+    }
+
+    function startEditDish(id){
+      const it = loadMenu().find(i=>i.id===id);
+      if(!it) return;
+      document.getElementById('menuItemId').value = it.id;
+      document.getElementById('mName').value = it.name;
+      document.getElementById('mPrice').value = it.price || '';
+      document.getElementById('mCat').value = it.cat;
+      document.getElementById('mAvail').value = it.available===false ? '0' : '1';
+      document.getElementById('mDesc').value = it.desc || '';
+      document.getElementById('menuSubmitBtn').textContent = 'Enregistrer les modifications';
+      document.getElementById('menuCancelEdit').style.display = 'inline-flex';
+      document.getElementById('menuForm').scrollIntoView({behavior:'smooth', block:'start'});
+    }
+
+    function deleteDish(id){
+      if(!confirm('Supprimer ce plat du menu ?')) return;
+      saveMenu(loadMenu().filter(i=>i.id!==id));
+      renderDashboardMenu();
+      renderMenu();
+    }
+
+    document.getElementById('menuForm').addEventListener('submit', e=>{
+      e.preventDefault();
+      const id = document.getElementById('menuItemId').value;
+      const name = document.getElementById('mName').value.trim();
+      const price = document.getElementById('mPrice').value.trim();
+      const cat = document.getElementById('mCat').value;
+      const available = document.getElementById('mAvail').value === '1';
+      const desc = document.getElementById('mDesc').value.trim();
+      if(!name) return;
+      let items = loadMenu();
+      if(id){ items = items.map(it => it.id===id ? {...it, name, price, cat, available, desc} : it); }
+      else { items.push({id:'m_'+Date.now(), name, price, cat, available, desc}); }
+      saveMenu(items);
+      resetMenuForm();
+      renderDashboardMenu();
+      renderMenu();
+      showToast('Menu mis à jour.');
+    });
+    document.getElementById('menuCancelEdit').addEventListener('click', resetMenuForm);
+
+
+    /* ---------- Notifications Admin ---------- */
+    let reservationRealtimeChannel = null;
+    let notificationUnread = 0;
+    const NOTIF_SEEN_KEY = 'vf_admin_seen_reservations';
+
+    function getSeenReservationIds(){
+      try{
+        const raw = localStorage.getItem(NOTIF_SEEN_KEY);
+        return new Set(raw ? JSON.parse(raw) : []);
+      }catch(e){ return new Set(); }
+    }
+
+    function saveSeenReservationIds(ids){
+      try{ localStorage.setItem(NOTIF_SEEN_KEY, JSON.stringify([...ids].slice(-500))); }catch(e){}
+    }
+
+    function updateNotificationBadge(count){
+      notificationUnread = Math.max(0, count);
+      const badge = document.getElementById('notifCount');
+      const btn = document.getElementById('notifBtn');
+      if(!badge || !btn) return;
+      badge.textContent = notificationUnread > 99 ? '99+' : String(notificationUnread);
+      badge.classList.toggle('show', notificationUnread > 0);
+      btn.classList.toggle('has-new', notificationUnread > 0);
+    }
+
+    function renderNotifications(items){
+      const list = document.getElementById('notifList');
+      if(!list) return;
+      if(!items.length){
+        list.innerHTML = '<div class="notif-empty">Aucune nouvelle réservation.</div>';
+        return;
+      }
+
+      list.innerHTML = items.slice(0,20).map(r => `
+        <div class="notif-item" data-notif-id="${escapeHtml(String(r.id))}">
+          <strong>🔔 Nouvelle réservation — ${escapeHtml(r.name || 'Client')}</strong>
+          <span>📅 ${escapeHtml(r.date || '—')} · 🕐 ${escapeHtml(r.time || '—')} · 👥 ${escapeHtml(String(r.people || '—'))}</span>
+        </div>
+      `).join('');
+
+      list.querySelectorAll('[data-notif-id]').forEach(item=>{
+        item.addEventListener('click', ()=>{
+          const seen = getSeenReservationIds();
+          seen.add(item.dataset.notifId);
+          saveSeenReservationIds(seen);
+          const remaining = [...document.querySelectorAll('.notif-item')]
+            .filter(x => x.dataset.notifId !== item.dataset.notifId).length;
+          updateNotificationBadge(remaining);
+          document.getElementById('notifMenu').classList.remove('show');
+          document.querySelector('.dash-tab[data-tab="reservations"]')?.click();
+          renderDashboardReservations();
+        });
+      });
+    }
+
+    async function loadNotificationCount(){
+      if(!isAuthed()) return;
+
+      const seen = getSeenReservationIds();
+      const { data, error } = await supabaseClient
+        .from('reservations')
+        .select('id,name,people,date,time,created_at,status')
+        .order('created_at', { ascending:false })
+        .limit(100);
+
+      if(error){
+        console.error('Notification load error:', error);
+        return;
+      }
+
+      const fresh = (data || []).filter(r => r.id != null && !seen.has(String(r.id)));
+      updateNotificationBadge(fresh.length);
+      renderNotifications(fresh);
+    }
+
+    async function showNewReservationNotification(r){
+      const seen = getSeenReservationIds();
+      const id = String(r.id);
+
+      if(seen.has(id)) return;
+
+      // Keep it unread until the admin clicks it.
+      await loadNotificationCount();
+
+      if('Notification' in window && Notification.permission === 'granted'){
+        try{
+          new Notification('Villa Frères — Nouvelle réservation', {
+            body:`${r.name || 'Client'} · ${r.date || '—'} à ${r.time || '—'} · ${r.people || '—'} personne(s)`
+          });
+        }catch(e){}
+      }
+    }
+
+    async function startAdminNotifications(){
+      if(!isAuthed()) return;
+
+      await loadNotificationCount();
+
+      if(reservationRealtimeChannel){
+        try{ await supabaseClient.removeChannel(reservationRealtimeChannel); }catch(e){}
+      }
+
+      reservationRealtimeChannel = supabaseClient
+        .channel('admin-reservations-notifications')
+        .on(
+          'postgres_changes',
+          { event:'INSERT', schema:'public', table:'reservations' },
+          payload => {
+            console.log('🔔 Nouvelle réservation:', payload.new);
+            showNewReservationNotification(payload.new);
+          }
+        )
+        .subscribe(status => {
+          console.log('Notifications Realtime:', status);
+        });
+    }
+
+    async function stopAdminNotifications(){
+      if(reservationRealtimeChannel){
+        try{ await supabaseClient.removeChannel(reservationRealtimeChannel); }catch(e){}
+        reservationRealtimeChannel = null;
+      }
+    }
+
+    document.getElementById('notifBtn').addEventListener('click', async ()=>{
+      const menu = document.getElementById('notifMenu');
+      menu.classList.toggle('show');
+      if(menu.classList.contains('show')) await loadNotificationCount();
+    });
+
+    document.addEventListener('click', e=>{
+      const wrap = document.getElementById('notifWrap');
+      if(wrap && !wrap.contains(e.target)){
+        document.getElementById('notifMenu').classList.remove('show');
+      }
+    });
+
+    async function requestNotificationPermission(){
+      if(!('Notification' in window)) return;
+      if(Notification.permission === 'default'){
+        try{ await Notification.requestPermission(); }catch(e){}
+      }
+    }
+
+    /* ---------- (6) Gestion des réservations (dashboard) ---------- */
+    function statusLabel(s){ return s==='confirmed' ? 'Confirmée' : s==='cancelled' ? 'Annulée' : 'En attente'; }
+
+async function renderDashboardReservations(){
+  const wrap = document.getElementById('dashResList');
+
+  wrap.innerHTML = '<div class="dash-empty">Chargement des réservations...</div>';
+
+  const { data: items, error } = await supabaseClient
+    .from('reservations')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('Supabase error:', error);
+    wrap.innerHTML = '<div class="dash-empty">Impossible de charger les réservations.</div>';
+    return;
+  }
+
+  if (!items || !items.length) {
+    wrap.innerHTML = '<div class="dash-empty">Aucune réservation enregistrée.</div>';
+    return;
+  }
+
+  wrap.innerHTML = items.map(r => `
+    <div class="dash-item">
+      <div>
+        <strong>${escapeHtml(r.name || '—')}</strong>
+        <span class="badge ${escapeHtml(r.status || 'pending')}">
+          ${statusLabel(r.status || 'pending')}
+        </span>
+
+        <div style="font-size:13px;color:var(--muted);margin-top:4px">
+          📅 ${escapeHtml(r.date || '—')}
+          · 🕐 ${escapeHtml(r.time || '—')}
+          · 👥 ${escapeHtml(String(r.people || '—'))}
+          ${r.phone ? ` · ☎ <a href="tel:${escapeHtml(r.phone)}" style="color:var(--text)">${escapeHtml(r.phone)}</a>` : ''}
+        </div>
+
+        ${r.message ? `
+          <div style="font-size:13px;color:var(--muted);margin-top:4px">
+            💬 ${escapeHtml(r.message)}
+          </div>
+        ` : ''}
+      </div>
+
+      <div class="dash-actions" style="flex-direction:column;gap:6px">
+        <button type="button" title="Confirmer" data-status="confirmed" data-id="${r.id}">✅</button>
+        <button type="button" title="Annuler" data-status="cancelled" data-id="${r.id}">🚫</button>
+        <button type="button" title="Supprimer" data-del-res="${r.id}">🗑️</button>
+      </div>
+    </div>
+  `).join('');
+
+  wrap.querySelectorAll('[data-status]').forEach(button => {
+    button.addEventListener('click', async () => {
+      const { error } = await supabaseClient
+        .from('reservations')
+        .update({ status: button.dataset.status })
+        .eq('id', button.dataset.id);
+
+      if (error) {
+        console.error('Supabase error:', error);
+        showToast('Erreur lors de la modification.');
+        return;
+      }
+
+      renderDashboardReservations();
+    });
+  });
+
+  wrap.querySelectorAll('[data-del-res]').forEach(button => {
+    button.addEventListener('click', async () => {
+      if (!confirm('Supprimer cette réservation ?')) return;
+
+      const { error } = await supabaseClient
+        .from('reservations')
+        .delete()
+        .eq('id', button.dataset.delRes);
+
+      if (error) {
+        console.error('Supabase error:', error);
+        showToast('Erreur lors de la suppression.');
+        return;
+      }
+
+      renderDashboardReservations();
+    });
+  });
+}
+
+    document.getElementById('addResManual').addEventListener('click', ()=>{
+      const f = document.getElementById('manualResForm');
+      f.style.display = f.style.display==='block' ? 'none' : 'block';
+    });
+    document.getElementById('mrCancel').addEventListener('click', ()=>{ document.getElementById('manualResForm').style.display='none'; });
+    document.getElementById('mrSave').addEventListener('click', ()=>{
+      const name = document.getElementById('mrName').value.trim();
+      if(!name) return;
+      const r = {
+        id:'r_'+Date.now(), name,
+        phone: document.getElementById('mrPhone').value.trim(),
+        people: document.getElementById('mrPeople').value,
+        date: document.getElementById('mrDate').value,
+        time: document.getElementById('mrTime').value,
+        message: document.getElementById('mrNote').value.trim(),
+        status:'pending', createdAt:Date.now()
+      };
+      const list = loadReservations(); list.unshift(r); saveReservations(list);
+      document.getElementById('manualResForm').style.display='none';
+      ['mrName','mrPhone','mrDate','mrTime','mrNote'].forEach(id=>document.getElementById(id).value='');
+      document.getElementById('mrPeople').value='2';
+      renderDashboardReservations();
+    });
+
+    function csvEscape(v){ const s = String(v==null?'':v); return /[;"\n]/.test(s) ? '"'+s.replace(/"/g,'""')+'"' : s; }
+    function exportReservationsCSV(){
+      const items = loadReservations();
+      const header = ['Nom','Téléphone','Personnes','Date','Heure','Message','Statut','Créée le'];
+      const rows = items.map(r => [r.name, r.phone, r.people, r.date, r.time, (r.message||'').replace(/\n/g,' '), statusLabel(r.status), new Date(r.createdAt).toLocaleString('fr-FR')]);
+      const csv = [header, ...rows].map(row=>row.map(csvEscape).join(';')).join('\n');
+      const blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8;'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = `reservations_${new Date().toISOString().slice(0,10)}.csv`;
+      document.body.appendChild(a); a.click(); a.remove();
+      URL.revokeObjectURL(url);
+    }
+    document.getElementById('exportCsv').addEventListener('click', exportReservationsCSV);
+
+    /* ---------- Paramètres : mot de passe & réinitialisation du menu ---------- */
+    document.getElementById('passForm').addEventListener('submit', e=>{
+      e.preventDefault();
+      const val = document.getElementById('newPass').value;
+      if(val.length < 4) return;
+      localStorage.setItem(PASS_KEY, val);
+      document.getElementById('newPass').value = '';
+      const ok = document.getElementById('passSaved');
+      ok.style.display = 'block';
+      setTimeout(()=>ok.style.display='none', 2500);
+    });
+    document.getElementById('resetMenuBtn').addEventListener('click', ()=>{
+      if(!confirm('Réinitialiser le menu avec les plats par défaut ? Cette action supprimera vos plats actuels.')) return;
+      saveMenu(JSON.parse(JSON.stringify(DEFAULT_MENU)));
+      renderDashboardMenu();
+      renderMenu();
+    });
+
+    /* ---------- (7) Initialisation ---------- */
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const dateInput = document.getElementById('date');
+    if(dateInput) dateInput.min = new Date().toISOString().slice(0,10);
+    populateCategorySelect(document.getElementById('mCat'));
+    renderFilters();
+    renderMenu();
+  </script>
+</body>
+</html>
