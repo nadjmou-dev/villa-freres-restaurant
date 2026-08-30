@@ -433,31 +433,40 @@ const supabaseClient = window.supabase.createClient(
     const reservationForm = document.getElementById('reservationForm');
     const resSuccess = document.getElementById('resSuccess');
     const waConfirmBtn = document.getElementById('waConfirmBtn');
+reservationForm.addEventListener('submit', async e => {
+  e.preventDefault();
 
-    reservationForm.addEventListener('submit', e=>{
-      e.preventDefault();
-      const name = document.getElementById('name').value.trim();
-      const phone = document.getElementById('phone').value.trim();
-      const people = document.getElementById('people').value;
-      const date = document.getElementById('date').value;
-      const time = document.getElementById('time').value;
-      const message = document.getElementById('message').value.trim();
+  const name = document.getElementById('name').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const people = document.getElementById('people').value;
+  const date = document.getElementById('date').value;
+  const time = document.getElementById('time').value;
+  const message = document.getElementById('message').value.trim();
 
-      const reservation = { id:'r_'+Date.now(), name, phone, people, date, time, message, status:'pending', createdAt:Date.now() };
-      const list = loadReservations();
-      list.unshift(reservation);
-      saveReservations(list);
-
-      const waText = `Bonjour Villa Frères Restaurant,%0A%0AJe souhaite faire une demande de réservation.%0A%0ANom : ${encodeURIComponent(name)}%0ATéléphone : ${encodeURIComponent(phone)}%0APersonnes : ${encodeURIComponent(people)}%0ADate : ${encodeURIComponent(date)}%0AHeure : ${encodeURIComponent(time)}%0AMessage : ${encodeURIComponent(message || 'Aucun message complémentaire.')}`;
-      waConfirmBtn.href = `https://wa.me/213781869896?text=${waText}`;
-
-      reservationForm.reset();
-      document.getElementById('time').value = '20:00';
-      resSuccess.style.display = 'block';
-      showToast('Réservation enregistrée. Vous pouvez aussi la confirmer sur WhatsApp.');
-
-      renderDashboardReservations();
+  const { error } = await supabaseClient
+    .from('reservations')
+    .insert({
+      name: name,
+      phone: phone,
+      people: people,
+      date: date,
+      time: time,
+      message: message,
+      status: 'pending'
     });
+
+  if (error) {
+    console.error('Supabase error:', error);
+    showToast('حدث خطأ أثناء تسجيل الحجز.');
+    return;
+  }
+
+  reservationForm.reset();
+  document.getElementById('time').value = '20:00';
+
+  resSuccess.style.display = 'block';
+  showToast('Réservation enregistrée avec succès.');
+});
 
     /* ---------- (4) Espace propriétaire : ouverture, connexion, onglets ---------- */
     const dashOverlay = document.getElementById('dashOverlay');
