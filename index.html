@@ -267,13 +267,21 @@
         <button class="dash-close" id="closeDash" aria-label="Fermer">×</button>
       </div>
       <p style="color:var(--muted);font-size:13px;margin-top:0">Accès réservé au gérant du restaurant.</p>
-      <form id="loginForm">
-        <label for="adminPass">Mot de passe</label>
-        <input type="password" id="adminPass" required autocomplete="current-password">
-        <div id="loginError" style="display:none;color:var(--danger);font-size:12px">Mot de passe incorrect.</div>
-        <button class="btn primary" type="submit" style="width:100%;margin-top:4px">Se connecter</button>
-      </form>
-      <p style="color:var(--muted);font-size:11px;margin-top:16px">Mot de passe par défaut : <strong>VillaFreres2026</strong> — à changer dans Paramètres après connexion.</p>
+    <form id="loginForm">
+  <label for="adminEmail">Email</label>
+  <input type="email" id="adminEmail" required autocomplete="email">
+
+  <label for="adminPass">Mot de passe</label>
+  <input type="password" id="adminPass" required autocomplete="current-password">
+
+  <div id="loginError" style="display:none;color:var(--danger);font-size:12px">
+    Email ou mot de passe incorrect.
+  </div>
+
+  <button class="btn primary" type="submit" style="width:100%;margin-top:4px">
+    Se connecter
+  </button>
+</form>
     </div>
 
     <div class="dash-panel" id="dashPanel" style="display:none">
