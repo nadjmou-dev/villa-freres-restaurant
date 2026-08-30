@@ -376,7 +376,7 @@
     function loadReservations(){ try{ const raw = localStorage.getItem(STORAGE.RES); return raw ? JSON.parse(raw) : []; }catch(e){ return []; } }
     function saveReservations(items){ try{ localStorage.setItem(STORAGE.RES, JSON.stringify(items)); }catch(e){} } 
     const SUPABASE_URL = "https://snjpptllgchtvzxaqnix.supabase.co";
-const SUPABASE_KEY = "https://snjpptllgchtvzxaqnix.supabase.co";
+const SUPABASE_KEY = "sb_publishable_AoTdNs0hJwTL5w-hmXPxTg_kfPWBtAy";
 
 const supabaseClient = window.supabase.createClient(
   SUPABASE_URL,
