@@ -374,7 +374,14 @@
     function loadMenu(){ try{ const raw = localStorage.getItem(STORAGE.MENU); return raw ? JSON.parse(raw) : DEFAULT_MENU; }catch(e){ return DEFAULT_MENU; } }
     function saveMenu(items){ try{ localStorage.setItem(STORAGE.MENU, JSON.stringify(items)); }catch(e){} }
     function loadReservations(){ try{ const raw = localStorage.getItem(STORAGE.RES); return raw ? JSON.parse(raw) : []; }catch(e){ return []; } }
-    function saveReservations(items){ try{ localStorage.setItem(STORAGE.RES, JSON.stringify(items)); }catch(e){} }
+    function saveReservations(items){ try{ localStorage.setItem(STORAGE.RES, JSON.stringify(items)); }catch(e){} } 
+    const SUPABASE_URL = "https://snjpptllgchtvzxaqnix.supabase.co";
+const SUPABASE_KEY = "https://snjpptllgchtvzxaqnix.supabase.co";
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
     function getAdminPass(){ return localStorage.getItem(PASS_KEY) || DEFAULT_PASS; }
     function isAuthed(){ return sessionStorage.getItem(AUTH_KEY) === '1'; }
     function setAuthed(v){ if(v) sessionStorage.setItem(AUTH_KEY,'1'); else sessionStorage.removeItem(AUTH_KEY); }
