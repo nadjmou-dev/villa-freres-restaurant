@@ -498,19 +498,30 @@ reservationForm.addEventListener('submit', async e => {
     dashOverlay.addEventListener('click', e=>{ if(e.target===dashOverlay) closeDashboard(); });
     document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeDashboard(); });
 
-    document.getElementById('loginForm').addEventListener('submit', e=>{
-      e.preventDefault();
-      const val = document.getElementById('adminPass').value;
-      const errBox = document.getElementById('loginError');
-      if(val === getAdminPass()){
-        setAuthed(true);
-        errBox.style.display='none';
-        document.getElementById('loginForm').reset();
-        showPanel();
-      } else {
-        errBox.style.display='block';
-      }
-    });
+ document.getElementById('loginForm').addEventListener('submit', async e => {
+  e.preventDefault();
+
+  const email = document.getElementById('adminEmail').value.trim();
+  const password = document.getElementById('adminPass').value;
+  const errBox = document.getElementById('loginError');
+
+  errBox.style.display = 'none';
+
+  const { error } = await supabaseClient.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if (error) {
+    console.error('Login error:', error);
+    errBox.textContent = 'Email ou mot de passe incorrect.';
+    errBox.style.display = 'block';
+    return;
+  }
+
+  document.getElementById('loginForm').reset();
+  showPanel();
+});
     document.getElementById('logoutBtn').addEventListener('click', ()=>{ setAuthed(false); closeDashboard(); });
 
     document.querySelectorAll('.dash-tab').forEach(tab=>tab.addEventListener('click', ()=>{
