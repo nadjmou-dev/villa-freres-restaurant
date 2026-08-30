@@ -522,7 +522,16 @@ reservationForm.addEventListener('submit', async e => {
   document.getElementById('loginForm').reset();
   showPanel();
 });
-    document.getElementById('logoutBtn').addEventListener('click', ()=>{ setAuthed(false); closeDashboard(); });
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+  const { error } = await supabaseClient.auth.signOut();
+
+  if (error) {
+    console.error('Logout error:', error);
+    return;
+  }
+
+  closeDashboard();
+});  
 
     document.querySelectorAll('.dash-tab').forEach(tab=>tab.addEventListener('click', ()=>{
       document.querySelectorAll('.dash-tab').forEach(t=>t.classList.remove('active'));
